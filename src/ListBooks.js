@@ -70,8 +70,8 @@ class ListBooks extends Component {
                                   </select>
                                 </div>
                               </div>
-                              <div className="book-title">To Kill a Mockingbird</div>
-                              <div className="book-authors">Harper Lee</div>
+                              <div className="book-title">{book.title ? book.title : 'Unknown'}</div>
+                              <div className="book-authors">{book.authors ? book.authors.join() : 'Unknown'}</div>
                             </div>
                           </li>
                         ))
