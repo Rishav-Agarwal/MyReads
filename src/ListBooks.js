@@ -5,10 +5,15 @@ import PropTypes from 'prop-types';
 class ListBooks extends Component {
 
   static propTypes = {
-    books: PropTypes.array.isRequired
+    books: PropTypes.array.isRequired,
+    onChangeBookshelf: PropTypes.func.isRequired
   };
 
+  onChangeBookshelf = this.props.onChangeBookshelf;
+
   render() {
+    this.onChangeBookshelf = this.props.onChangeBookshelf;
+
     const bookshelves = [
       {
         name: "Currently reading",
@@ -26,7 +31,7 @@ class ListBooks extends Component {
         books: this.props.books.filter(book => book.shelf === 'read')
       }
     ];
-    console.log(bookshelves);
+    
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -56,7 +61,7 @@ class ListBooks extends Component {
                                   }
                                 />
                                 <div className="book-shelf-changer">
-                                  <select value={book.shelf}>
+                                  <select value={book.shelf} onChange={e => this.onChangeBookshelf(book, e.target.value)}>
                                     <option value="move" disabled>Move to...</option>
                                     <option value="currentlyReading">Currently Reading</option>
                                     <option value="wantToRead">Want to Read</option>
