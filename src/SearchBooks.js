@@ -38,7 +38,7 @@ class SearchBooks extends Component {
               type='text'
               placeholder='Search by title or author'
               onKeyUp={e => {
-                if (e.keyCode === 13)
+                if (e.keyCode === 13 || !e.target.value)
                   this.onChangeQuery(e.target.value);
               }}
             />
@@ -65,7 +65,12 @@ class SearchBooks extends Component {
                           }
                         />
                         <div className='book-shelf-changer'>
-                          <select value={this.props.bookshelf && this.props.bookshelf.find(ele => ele.id === book.id) ? this.props.bookshelf.find(ele => ele.id === book.id).shelf : 'none'} onChange={e => this.props.onChangeBookshelf(book, e.target.value)}>
+                          <select
+                            value={this.props.bookshelf &&
+                              this.props.bookshelf.find(ele => ele.id === book.id)
+                              ? this.props.bookshelf.find(ele => ele.id === book.id).shelf
+                              : 'none'}
+                            onChange={e => this.props.onChangeBookshelf(book, e.target.value)} >
                             <option value='move' disabled>Move to...</option>
                             <option value='currentlyReading'>Currently Reading</option>
                             <option value='wantToRead'>Want to Read</option>
