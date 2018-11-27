@@ -5,16 +5,21 @@ import * as BooksAPI from './BooksAPI';
 
 class SearchBooks extends Component {
 
+  //Properties
   static propTypes = {
+    //Function which is called when a book os added to the bookshelf
     onChangeBookshelf: PropTypes.func.isRequired,
+    //The bookshelf itself
     bookshelf: PropTypes.array
   };
 
+  //State is determined by query and the searched books being shown
   state = {
     query: '',
     searchedBooks: []
   };
 
+  //This function is called when query is changed and either 'Enter' is pressed or query becomes empty
   onChangeQuery = (query) => {
     BooksAPI.search(query).then(books => {
       this.setState({
@@ -25,14 +30,14 @@ class SearchBooks extends Component {
   };
 
   render() {
-    console.log(this.props.bookshelf);
-
     return (
       <div className='search-books'>
         <div className='search-books-bar'>
+        {/* Back to main page */}
           <Link to='/'>
               <button className='close-search' >Close</button>
           </Link>
+          {/* Query input */}
           <div className='search-books-input-wrapper'>
             <input
               type='text'
@@ -43,13 +48,16 @@ class SearchBooks extends Component {
               }}
             />
           </div>
+          {/* Ask user to press 'enter' to search */}
           <span className='inst-ent-to-search'>Press "ENTER" to search</span>
         </div>
         {
+          //If query is valid and search results are not empty show the result
           this.state.query && this.state.searchedBooks.map ? (
           <div className='search-books-results'>
             <ol className='books-grid'>
               {
+                //Loop over the searched books and return their views
                  this.state.searchedBooks.map(book => (
                   <li key={book.id}>
                     <div className='book'>
@@ -87,6 +95,7 @@ class SearchBooks extends Component {
               }
             </ol>
           </div>) : (
+            //If query is empty or no results show up, show 'No books!'
             <div className='no-books-search'>No books!</div>
           )
         }

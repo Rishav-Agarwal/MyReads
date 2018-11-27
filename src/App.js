@@ -7,12 +7,15 @@ import SearchBooks from './SearchBooks';
 
 class BooksApp extends Component {
 
+  //As soon as the component loads, load all the books from bookshelf
   componentDidMount = () => {
     BooksAPI.getAll().then(books => {
       this.setState({books});
     });
   };
 
+  //If book exists in the bookshelf, just its shelf changes.
+  //Otherwise, it is added to the bookshelf.
   onChangeBookshelf = (book, shelf) => {
     BooksAPI.update(book, shelf).then(() => {
       const foundBook = this.state.books.find(ele => ele.id === book.id);
@@ -27,6 +30,7 @@ class BooksApp extends Component {
     });
   };
 
+  //State of this component is determined by the books
   state = {
     books: []
   };
@@ -34,12 +38,14 @@ class BooksApp extends Component {
   render() {
     return (
       <div className='app'>
+        {/* On the main page, show the bookshelf */}
         <Route exact path='/' render={() => (
           <ListBooks
             books={this.state.books}
             onChangeBookshelf={this.onChangeBookshelf}
           />
         )} />
+        {/* On the search page, show the search component */}
         <Route path='/search' render={() => (
           <SearchBooks
             bookshelf= {this.state.books}

@@ -4,12 +4,16 @@ import PropTypes from 'prop-types';
 
 class ListBooks extends Component {
 
+  //Properties of the component
   static propTypes = {
+    //Books in the bookshelf
     books: PropTypes.array.isRequired,
+    //Function which is called when a book's shelf is changed or it is added to the bookshelf
     onChangeBookshelf: PropTypes.func.isRequired
   };
 
   render() {
+    //Load the bookshelves
     const bookshelves = [
       {
         name: 'Currently reading',
@@ -36,12 +40,14 @@ class ListBooks extends Component {
         <div className='list-books-content'>
           <div>
             {
+              //Loop over the bookshelves and return their respective views with books
               bookshelves.map(bookshelf => (
                 <div className='bookshelf' key={bookshelf.id}>
                   <h2 className='bookshelf-title'>{bookshelf.name}</h2>
                   <div className='bookshelf-books'>
                     <ol className='books-grid'>
                       {
+                        //If atleast one book exists, map over them to display them properly
                         bookshelf.books.length ? (bookshelf.books.map(book => (
                           <li key={book.id}>
                             <div className='book'>
@@ -71,6 +77,7 @@ class ListBooks extends Component {
                             </div>
                           </li>
                         ))) : (
+                          //If no books are present, display "No books!"
                           <div className='no-books'>No books!</div>
                         )
                       }
@@ -81,6 +88,7 @@ class ListBooks extends Component {
             }
           </div>
         </div>
+          {/* Search button to search books (takes to the searh component) */}
         <div className='open-search'>
           <Link to='/search'>
               <button>Add a book</button>
