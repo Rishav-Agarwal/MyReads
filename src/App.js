@@ -15,7 +15,14 @@ class BooksApp extends Component {
 
   onChangeBookshelf = (book, shelf) => {
     BooksAPI.update(book, shelf).then(() => {
-      this.state.books.find(ele => ele.id === book.id).shelf = shelf;
+      const foundBook = this.state.books.find(ele => ele.id === book.id);
+      if (foundBook)
+        foundBook.shelf = shelf;
+      else {
+        book.shelf = shelf;
+        console.log(book);
+        this.state.books.push(book);
+      }
       this.setState(this.state);
     });
   };
@@ -33,7 +40,12 @@ class BooksApp extends Component {
             onChangeBookshelf={this.onChangeBookshelf}
           />
         )} />
-        <Route path='/search' component={SearchBooks} />
+        <Route path='/search' render={() => (
+          <SearchBooks
+            bookshelf= {this.state.books}
+            onChangeBookshelf={this.onChangeBookshelf}
+          />
+        )} />
       </div>
     )
   }
