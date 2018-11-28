@@ -18,15 +18,23 @@ class BooksApp extends Component {
   //Otherwise, it is added to the bookshelf.
   onChangeBookshelf = (book, shelf) => {
     BooksAPI.update(book, shelf).then(() => {
-      const foundBook = this.state.books.find(ele => ele.id === book.id);
-      if (foundBook)
+      let found = false;
+      this.setState(prev => {
+        const foundBook = prev.books.find(ele => ele.id === book.id);
+        if (foundBook)
+          found = true;
+        else
+          return {books: prev.books};
         foundBook.shelf = shelf;
-      else {
+        return {books: prev.books};
+      });
+      if (!found) {
         book.shelf = shelf;
-        console.log(book);
-        this.state.books.push(book);
+        this.setState(prev => {
+          prev.books.push(book);
+          return {books: prev.books};
+        });
       }
-      this.setState(this.state);
     });
   };
 
